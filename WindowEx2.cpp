@@ -3,26 +3,42 @@
 //
 
 #include "WindowEx2.h"
+#include "Windows.h"
+#include <QVBoxLayout>
+#include <QtWidgets>
+#include <QString>
 #include <iostream>
 using namespace std ;
 
-WindowEx2::WindowEx2() {
+WindowEx2::WindowEx2(QWidget* parent) : QMainWindow(parent) {
     setWindowTitle("TP3 Exo2");
 
-    this->setMinimumSize(600, 400);
+    QWidget* mainWidget = new QWidget();
+    QVBoxLayout* mainLayout = new QVBoxLayout();
 
-    fils = new QPushButton("Fils",this);
+    this->fils = new QPushButton("Fils");
 
-    //Version 1
-    //connect(fils, SIGNAL(clicked()), qApp, SLOT(quit()));
+    this->text = new QTextEdit("Text initial");
 
-    //Version 2
-    connect(fils, SIGNAL(clicked()), this, SLOT(onclick()));
+    mainLayout->addWidget(fils);
+    mainLayout->addWidget(text);
+    mainWidget->setLayout(mainLayout);
+    this->setCentralWidget(mainWidget);
+
+    //connect(fils,SIGNAL(clicked()), qApp,SLOT(quit()));
+    //connect(fils,SIGNAL(clicked()),this,SLOT(onclick()));
+    connect(fils,SIGNAL(clicked()),this,SLOT(openEx1()));
+
 }
 
 void WindowEx2::onclick() {
-    nbrclick++;
     fils->setText("Parent");
-    cout << fils->text().toStdString() << nbrclick << endl ;
+    nbrclick++;
+    text->insertPlainText(QString("Parent %1 \n").arg(nbrclick));
 
+}
+
+void WindowEx2::openEx1() {
+    Windows* window = new Windows();
+    window->show();
 }

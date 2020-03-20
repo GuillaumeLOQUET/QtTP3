@@ -3,22 +3,28 @@
 //
 
 #include <QVBoxLayout>
+#include <QtWidgets>
 #include "Windows.h"
 
 Windows::Windows() {
     setWindowTitle("TP3 Exo1");
 
-    this->setMinimumSize(600, 400);
-    progressBar = new QProgressBar(this);
-    slider =new QSlider(Qt::Horizontal, this);
+    QWidget* mainWidget = new QWidget();
+    QVBoxLayout* mainLayout = new QVBoxLayout();
 
+    progressBar = new QProgressBar();
     progressBar->setRange(0, 100);
     progressBar->setValue(0);
-    progressBar->setGeometry(10, 10, 180, 30);
 
+    slider =new QSlider(Qt::Horizontal);
     slider->setRange(0, 100);
     slider->setValue(0);
-    slider->setGeometry(10, 40, 180, 30);
+
+    mainLayout->addWidget(progressBar);
+    mainLayout->addWidget(slider);
+    mainWidget->setLayout(mainLayout);
+    this->setCentralWidget(mainWidget);
+
     connect(slider, SIGNAL(valueChanged(int)), progressBar, SLOT(setValue(int)));
 
 
